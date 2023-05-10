@@ -1,20 +1,25 @@
 // node 04-copy-directory
 
 const fs = require('fs');
-
-fs.promises.mkdir(__dirname + '\\files-copy', { recursive: true });
-fs.promises.readdir(__dirname + '\\files-copy\\')
+var path = require('path');
+const wayDir = path.join(__dirname, 'files');
+fs.promises.mkdir(path.join(__dirname, 'files-copy'), { recursive: true });
+const wayDirNew = path.join(__dirname, 'files-copy');
+fs.promises.readdir(wayDirNew)
   .then(filesDir => {
     for (let fileDir of filesDir) {
-      fs.unlink(__dirname + '\\files-copy\\' + fileDir, err => {
+      let wayDirNewFile = path.join(wayDirNew, fileDir);
+      fs.unlink(wayDirNewFile, err => {
         if(err) throw err;
       });
     }
 
-    fs.promises.readdir(__dirname + '\\files\\')
+    fs.promises.readdir(wayDir)
       .then(filesDir => {
         filesDir.forEach(fileDir => {
-          fs.promises.copyFile(__dirname + '\\files\\' + fileDir, __dirname + '\\files-copy\\' + fileDir);
+          let wayDirFile = path.join(wayDir, fileDir);
+          let wayDirNewFile = path.join(wayDirNew, fileDir);
+          fs.promises.copyFile(wayDirFile, wayDirNewFile);
         });
       });
   });

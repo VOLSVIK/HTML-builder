@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 var path = require('path');
-
+const wayDir = path.join(__dirname, 'secret-folder');
 const fileOrFolder = async (dir) => {
   let filehandle, stats = null;
   try {
@@ -14,13 +14,14 @@ const fileOrFolder = async (dir) => {
     }
   }
   if (stats.isFile()) {
-    console.log(`${path.parse(dir).name}-${path.parse(dir).ext.slice(1)}-${stats.size} bytes`);
+    console.log(`${path.parse(dir).name} - ${path.parse(dir).ext.slice(1)} - ${stats.size} bytes`);
   }
 };
 
-fs.promises.readdir(__dirname + '\\secret-folder\\')
+fs.promises.readdir(wayDir)
   .then(filesDir => {
     for (let fileDir of filesDir) {
-      fileOrFolder(__dirname + '\\secret-folder\\'+ fileDir);
+      let wayfile = path.join(wayDir, fileDir);
+      fileOrFolder(wayfile);
     }
   });

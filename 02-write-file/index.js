@@ -1,8 +1,8 @@
 // node 02-write-file
 
 const fs = require('fs');
- 
-let writeableStream = fs.createWriteStream(__dirname + '\\text.txt');
+const path = require('path');
+let writeableStream = fs.createWriteStream(path.join(__dirname, 'text.txt'));
 writeableStream.write('');
 const { stdin, stdout } = process;
 stdout.write('Введите текст\n');
